@@ -1,36 +1,233 @@
-<html lang="pt-br">
-<head>
-<!-- CSS  -->
- <link href="https://vjs.zencdn.net/7.2.3/video-js.css" rel="stylesheet">
- </head>
-<body>
 
-<!-- HTML -->
-<h1>
-  Boomerang
-</h1>
-<video id='hls-example1'  class="video-js vjs-default-skin" width="400" height="300" controls>
-<source type="application/x-mpegURL" src="https://m3u9.ml/b/hls1/boomerang.m3u8?mu3zAQc9HC3GbwJq=_WekwdRffd0s2Gwlo1F6IA&3U1G7qaTxrPbalZnEx=1634343840">
-</video>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="keywords" content="hls streaming, m3u8 stream, m3u8 player, hls player, m3u8, hls">
+    <meta name="description" content="M3U8 player provides an easy way to play m3u8 stream links or test a single hls streaming example online and for free. No installs are required">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
 
-<h1>
-  Discovery Channel
-</h1>
-<video id='hls-example2'  class="video-js vjs-default-skin" width="400" height="300" controls>
-<source type="application/x-mpegURL" src="https://m3u9.ml/b/hls1/discovery.m3u8?mu3zAQc9HC3GbwJq=Hh4psYytfw-fg8RCH7MVtA&3U1G7qaTxrPbalZnEx=1634338412">
-</video>
+    <link rel="canonical" href="https://m3u8player.net" />
 
+    <link rel="icon" href="/img/logo.png">
 
-<!-- JS code -->
-<!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-<script src="https://vjs.zencdn.net/ie8/ie8-version/videojs-ie8.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.14.1/videojs-contrib-hls.js"></script>
-<script src="https://vjs.zencdn.net/7.2.3/video.js"></script>
+    <link 
+      rel="preload" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css" 
+      as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+    <link 
+      rel="preload" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css"
+      as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+    <!--  Google Analytics -->
+    <script defer async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-124188225-1">
+    </script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-124188225-1');
+    </script>
+
+    <script async 
+      src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js">
+    </script>
+    
+    <script>
+      window.addEventListener("load", function(){
+      window.cookieconsent.initialise({
+        "palette": {
+          "popup": {
+            "background": "#252e39"
+          },
+          "button": {
+            "background": "#14a7d0"
+          }
+        },
+        "content": {
+          "message": "This website uses cookies to ensure you get the best experience on our website. If you continue browsing, you accept them.",
+          "href": "https://www.aboutcookies.org/"
+        }
+      })});   
+    </script>
+
+    <title>M3U8 Stream - HLS Streaming a new streaming player</title>
+
+    <style>
+      body { display: flex; min-height: 100vh; flex-direction: column; }
+      main { flex: 1 0 auto; }
+      h1 { font-size: 30px; }
+      h2 { margin-top: 10px; font-size: 25px; }
+      h3 { font-size: 20px; }
+      h4 { margin: 0px; font-size: 15px; }
+      li { line-height: 10px; padding: 30px; margin-top: 10px; margin-right: 5px; }
+      .logo { margin-left: 2%; }
+      .nav-mobile { margin-top: 10px; }
+      .input-field label { color: green; }
+      #toast-container { top: auto !important; right: auto !important; bottom: 50%; }
+
+      .bmc-button img { height: 34px !important;width: 35px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important; }
+      .bmc-button { padding: 7px 15px 7px 10px !important;line-height: 35px !important;height:51px !important;text-decoration: none !important;display:inline-flex !important;color:#ffffff !important;background-color:#5F7FFF !important;border-radius: 8px !important;border: 1px solid transparent !important;font-size: 24px !important;letter-spacing: 0.6px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Cookie', cursive !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important; }
+      .bmc-button:hover, .bmc-button:active, .bmc-button:focus { -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#ffffff !important; }
+  
+    </style>
+
+  </head>
+  <body>
+    <nav>
+      <div class="nav-wrapper blue-grey darken-3">
+        <a href="/" class="brand-logo logo" title="Home">M3U8 Player</a>
+      </div>
+    </nav>
+    
+    
+    <main>
+      <div class="container">
+  <div class="row">
+    <div class="center-align">
+      <h1>Free m3u8 hls streaming player</h1>
+    </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <label for="url">URL</label>
+          <input type="text" name="url" id="url" />
+        </div>
+        <div class="row">
+          <div class="center-align">
+            <button id="playBtn" class="btn waves-effect waves-light  blue-grey darken-3" type="submit" form="form" value="Submit">Play</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="center-align">
+            <link 
+              href="https://fonts.googleapis.com/css?family=Cookie" 
+              rel="stylesheet"><a class="bmc-button" 
+              target="_blank" 
+              href="https://www.buymeacoffee.com/cctab"
+            >
+            <img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee">
+            <span style="margin-left:5px;font-size:24px !important;">Buy me a coffee</span></a>
+          </div>
+        </div>
+      </div>
+      <div id="player"></div> 
+
+    <div class="row">
+      <div class="col s12">
+        <div class="card grey lighten-3">
+          <div class="card-content">
+            <h2>How hls streaming works?</h2>
+            <p>
+              HTTP Live Streaming (HLS) is an HTTP-based media streaming communications protocol implemented by Apple Inc.
+              HLS lets you deploy content using ordinary web servers and content delivery networks. 
+              It is designed for reliability and dynamically adapts to network conditions by optimizing playback for the available speed of wired and wireless connections.
+              <a class="demoVideo" href="#" rel="nofollow" title="HLS streaming example">HLS streaming example</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12">
+        <div class="card grey lighten-3">
+          <div class="card-content">
+            <h2>What is a m3u8 stream?</h2>
+            <p>
+              An m3u8 file or m3u8 playlist file is used by various audio and video playback programs.
+              M3U8 files use the same formatting as .M3U files, except the text stored in the files uses UTF-8 character encoding.
+              <a class="demoVideo" href="#" rel="nofollow" title="HLS streaming example">HLS streaming example</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12">
+        <div class="card grey lighten-3">
+          <div class="card-content">
+            <h2>What is mp4?</h2>
+            <p>
+              MP4 is a digital multimedia container format most commonly used to store video and audio.
+              It can also be used to store other data such as subtitles and still images.
+              Like other container formats, it allows streaming online over the Internet
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script 
+  src="/js/clappr.min.js">
+</script>
+<script 
+  src="/js/level-selector.min.js">
+</script>
 
 <script>
-var player1 = videojs('hls-example1');
-var player2 = videojs('hls-example2');
-player1.play(); 
-</script>
- </body>
- </html>
+  const demoSource = 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8';
+
+  const config = {
+    parentId: "#player",
+    plugins: [LevelSelector],
+    autoPlay: true,
+    width: '100%',
+    height: '100%',
+  }
+
+  const player = new Clappr.Player(config);
+
+  $("#playBtn").click(function(e) {
+    const source = document.getElementById('url').value;
+    if(!source.startsWith('https')) {
+      M.toast({html: 'URL must start with https, we care about security 😜', displayLength: 2000})
+      e.preventDefault();
+      return;
+    }
+    updateSource(source);
+  });
+
+  $(".demoVideo").click(function(e) {
+    updateSource();
+    return false;
+  });
+
+  function updateSource(source = demoSource) {
+    player.configure({ source });
+    resizePlayer();
+  }
+
+  function resizePlayer(){
+    const aspectRatio = 9/16;
+    const newWidth = document.getElementById('player')
+      ? document.getElementById('player').parentElement.offsetWidth
+      : 0;
+    const newHeight = 2 * Math.round(newWidth * aspectRatio/2);
+    if(player._ready) {
+      player.resize({width: newWidth, height: newHeight});
+    }   
+  }
+  window.onresize = resizePlayer; 
+
+
+</script> 
+    </main>
+    <footer class="page-footer blue-grey darken-3">
+        <div class="container">
+          <p>© 2018-2020 M3U8Player.net</p>
+        </div>
+    </footer>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+      defer
+      async>
+    </script>
+    <script 
+      src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"
+      defer
+      async>
+    </script>
+  </body>
+</html>
